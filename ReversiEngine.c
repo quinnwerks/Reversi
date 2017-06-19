@@ -1,9 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdbool.h>
-#include <sys/time.h>
-#include <sys/resource.h>
-//#include <math.h>
+
 
 struct rusage usage; // a structure to hold "resource usage" (including time)
 struct timeval start, end; // will hold the start and end times
@@ -258,7 +256,7 @@ void generateState(char board[][26], char newBoard[][26],int n , char row, char 
 
 }
 
-//finds the optimal move at specified depth
+//finds the optimal move at specified depth, is actually alphaBeta. Name is kinda a misnomer (sorry!)
 int miniMax(char boardState[][26], int n, int depth, int startDepth, int alpha, int beta,char colour,bool isMaxing
   , char* moveRow, char* moveCol){
 
@@ -338,15 +336,6 @@ int miniMax(char boardState[][26], int n, int depth, int startDepth, int alpha, 
 
 //Process computer takes to make a move
 void computerMove(char board[][26], int n, char colour, bool* computerDone){
-    /*
-  getrusage(RUSAGE_SELF, &usage);
-  double totalTime = 0;
-  start = usage.ru_utime;
-  double timeStart = start.tv_sec +
-  start.tv_usec / 1000000.0; // in seconds
-  double * p_timeStart = &timeStart;
-  double * p_totalTime = &totalTime;
-     * */
  
   int numValidMovesComp;
   char compMoveRow, compMoveCol;
@@ -377,15 +366,6 @@ void computerMove(char board[][26], int n, char colour, bool* computerDone){
      *computerDone = true;
 
    }
-  /*
-  getrusage(RUSAGE_SELF, &usage);
-  end = usage.ru_utime;
-
-  double timeElapsed = end.tv_sec +
-  end.tv_usec / 1000000.0; // in seconds
-  *p_totalTime += timeElapsed - *p_timeStart;
-  printf("time : %.6lf\n", totalTime);
-   * */
 }
 
 
@@ -445,34 +425,7 @@ int main(void){
   printBoard(board,n);
 
   //the game
-  /*
-  while(!(boardIsFull(board,n)) && !(computerDone && playerDone) &&!stop){
-
-      int numMovesPlayer;
-      getValidMoves(board,n,oppositeColour(colour),&numMovesPlayer);
-      int numMovesComp;
-      getValidMoves(board,n,colour,&numMovesComp);
-      
-      
-
-     if(computerFirst){
-        if(!stop){
-        computerMove(board,n,colour, &computerDone);
-      }
-        playerMove(board,n,oppositeColour(colour), &playerDone,&stop);
-         }
-     else{
-       playerMove(board,n,oppositeColour(colour), &playerDone,&stop);
-       if(!stop && !(boardIsFull(board,n))){
-       computerMove(board,n,colour, &computerDone);
-        }
-         }
-      if(boardIsFull(board,n)){
-        computerDone = true;
-        playerDone == true;
-      }
-
-    }*/
+  
     while(!(boardIsFull(board,n)) && !(computerDone && playerDone) &&!stop){
 
 
@@ -497,10 +450,6 @@ int main(void){
     }
 
 
-
-
-  //printf("%c%d",oppositeColour(colour),getWinner(board, n, oppositeColour(colour)));
-  //printf("%c%d\n",(colour),getWinner(board, n, (colour)));
 
   //win conditions
   if(stop){
